@@ -1,3 +1,4 @@
+import { userInfo } from "os";
 import { userService } from "./user.service";
 import { Request, Response } from "express";
 
@@ -50,17 +51,67 @@ async function createUserController(req: Request, res: Response) {
             message: "create a user",
             insertData: result, // result is already the inserted row
         });
-    } catch (error) {
+    } catch (error: any) {
         console.error("Error creating user:", error);
         res.status(500).json({
             success: false,
             message: "fail to create a user",
+            error: error.message
         });
     }
 }
 
+async function updateUserController(req: Request, res: Response) {
+    const { userId } = req.params;
+    const { requesterId } = req.query
+    const data = req.body;
+
+
+
+    try {
+        const result = await userService.updateUserFromDB(Number(userId), data, Number(requesterId));
+
+        res.status(200).json({
+            success: true,
+            message: "update a user",
+            updatedData: result,
+        })
+    } catch (error: any) {
+        res.status(500).json({
+            success: false,
+            message: "fail to update a user",
+            error: error.message,
+        })
+    }
+}
+
+async function deleteUserController(req: Request, res: Response) {
+    const { userId } = req.params
+    const { requesterId } = req.query
+
+    console.log(userId,requesterId);
+    
+    try {
+        const result = await userService.deleteUserFromDB(Number(userId), Number(requesterId))
+        res.status(200).json({
+            success: true,
+            message: "delete a user",
+            deleteddata: result
+        })
+    } catch (error: any) {
+        res.status(500).json({
+            success: false,
+            message: "fail to delete data",
+            error: error.message
+        })
+    }
+}
+
+
 export const userController = {
     createUserController,
     getUserController,
-    getUserControllerById
+    getUserControllerById,
+    updateUserController,
+    deleteUserController
 };

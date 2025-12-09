@@ -14,4 +14,8 @@ router.get('/api/v1/users/:userId', userController.getUserControllerById)
 
 router.post('/api/v1/users', userController.createUserController)
 
+router.put('/api/v1/users/:userId', userController.updateUserController)
+
+router.delete('/api/v1/users/:userId', userController.deleteUserController)
+
 export const userRouter = router
