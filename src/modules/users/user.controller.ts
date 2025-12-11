@@ -44,6 +44,9 @@ async function createUserController(req: Request, res: Response) {
         const data = req.body;
         const result = await userService.createUserFromDB(data);
 
+        console.log('post data : ', data);
+        console.log('result data : ', result);
+
         res.status(201).json({
             success: true,
             message: "create a user",

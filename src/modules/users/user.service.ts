@@ -15,8 +15,6 @@ export async function getUserFromDBById(id: any) {
 
 // create a user
 export async function createUserFromDB(userInfo: any) {
-    console.log(userInfo);
-    
     const { name, email, password, phone, role } = userInfo;
 
     const result = await pool.query(
